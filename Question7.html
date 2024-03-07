@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Travel Dates</title>
+  </head>
+  <body>
+    <h2>Travel Dates</h2>
+
+    <label for="departDate">Departing On:</label>
+    <input type="date" id="departDate" placeholder="Departing On" />
+
+    <label for="returnDate">Returning On:</label>
+    <input type="date" id="returnDate" placeholder="Returning On" />
+
+    <p id="message"></p>
+
+    <script>
+      document
+        .getElementById("departDate")
+        .addEventListener("change", updateMessage);
+      document
+        .getElementById("returnDate")
+        .addEventListener("change", updateMessage);
+
+      function updateMessage() {
+        var departDate = new Date(document.getElementById("departDate").value);
+        var returnDate = new Date(document.getElementById("returnDate").value);
+        var message = "";
+
+        if (returnDate < departDate) {
+          message = "It appears your dates are inverted. Please correct.";
+        } else if (returnDate.getFullYear() - departDate.getFullYear() > 1) {
+          message =
+            "It appears your travel duration is greater than 1 year. Please make sure this is correct.";
+        } else if ((returnDate - departDate) / (1000 * 3600 * 24) > 30) {
+          message =
+            "You have a 30+ day duration. Please make sure your dates are correct.";
+        } else if (departDate.toDateString() === returnDate.toDateString()) {
+          message =
+            "It appears you are coming back on the same day as your departure. Please make sure this is correct.";
+        }
+
+        document.getElementById("message").innerText = message;
+      }
+    </script>
+  </body>
+</html>
